@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -125,6 +126,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 
 CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
 
@@ -196,3 +200,11 @@ CKEDITOR_CONFIGS = {
         ]),
     }
 }
+
+django_heroku.settings(locals())
+
+
+SECURE_SSL_REDIRECT = (os.environ.get("SSL_VALUE") == "True")
+SESSION_COOKIE_SECURE = (os.environ.get("COOKIE_VALUE") == "True")
+CSRF_COOKIE_SECURE = (os.environ.get("CSRF_VALUE") == "True")
+SECURE_REFERRER_POLICY = "same-origin"
